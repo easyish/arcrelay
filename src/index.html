@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> 0x Relayer </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width-device-width, initial-scale-1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" scr="./node_modules/web3/dist/web3.min.js"></script>
+  <script type="text/javascript" scr="index.ts"></script>
+
+</head>
+<body>
+
+  <h1> 0x Relayer</h1>
+
+  <h3> Choose token: </h3>
+  <div>
+    <select name="mydropdown">
+      <option value="eth">ETH</option>
+      <option value="btc">BTC</option>
+      <option value="xrp">XRP</option>
+    </select>
+  </div>
+
+  <h3> Enter amount: </h3>
+  <input id="input" type= "text">
+  <h3> Complete order: </h3>
+  <button id="button">Submit Order</button>
+
+  <pre id="output">
+  </pre>
+  <p id="orderDetails"></p>
+
+  <script>
+  /*
+    var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+    web3.eth.defaultAccount = web3.eth.accounts[0];
+    var relayerContract = web3.eth.contract([{ "constant": true, "inputs" : [], "name": "getRelayer", "outputs": [{"name": "", "type": "bytes32"}], "payable": false, "type": "function"}, {"constant": false, "inputs": [{"name": "val", "type": "bytes32"}], "name": "setVal", "outputs": [], "payable": false, "type": "function"}]);
+
+*/
+    var title = document.getElementById("title");
+
+    //var input = document.getElementById("input");
+
+    var input = document.getElementById("input");
+    var button = document.getElementById("button");
+    var output = document.getElementById("output");
+
+    button.addEventListener('click', function(){
+      relayer.setVal(input.value);
+      //var order = "You submited an order for" + input.value "of " ;
+      document.getElementById("orderDetails").innerHTML = order;
+
+      //output.innderHTML = web3.toAscii(relayer.getRelayer());
+    });
+
+    </script>
+</body>
+</html>
