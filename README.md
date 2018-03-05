@@ -92,7 +92,9 @@ open another terminal window (to leave open), cd into the project folder, and ru
 $ yarn testrpc
 `
 
-Back in the first terminal window, run
+### Run index.ts
+To compile and run index.ts with all necessary dependencies,
+leave testRPC running in the 2nd terminal window, and in the 1st terminal window run:
 
 `
 $ yarn dev
