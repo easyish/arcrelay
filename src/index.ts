@@ -16,29 +16,17 @@ const configs = {
 };
 const zeroEx = new ZeroEx(provider, configs);
 
-// set contract and exchange addresses
-const WETH_ADDRESS = zeroEx.etherToken.getContractAddressIfExists() as string; // The wrapped ETH token contract
-const ZRX_ADDRESS = zeroEx.exchange.getZRXTokenAddress(); // The ZRX token contract
-// The Exchange.sol address (0x exchange smart contract)
-const EXCHANGE_ADDRESS = zeroEx.exchange.getContractAddress();
 
+const setupAddresses = async () => {
+    // set contract and exchange addresses
+    const WETH_ADDRESS = zeroEx.etherToken.getContractAddressIfExists() as string; // The wrapped ETH token contract
+    const ZRX_ADDRESS = zeroEx.exchange.getZRXTokenAddress(); // The ZRX token contract
+    // The Exchange.sol address (0x exchange smart contract)
+    const EXCHANGE_ADDRESS = zeroEx.exchange.getContractAddress();
+};
 
-//Ethereum Virtual Machine doesn't use decimals so we need to set DECIMALS
-//to convert our amounts with BigNumber()
-// Number of decimals to use (for ETH and ZRX)
-const DECIMALS = 18;
-
-
-
-const mainAsync = async () => {
-
-    // Getting list of accounts
-    const accounts = await zeroEx.getAvailableAddressesAsync();
-    console.log('accounts: ', accounts);
-
-    // Set our addresses
-    const [makerAddress, takerAddress] = accounts;
-
+const setAllowances = async () => {
+    //set allowances
     // Unlimited allowances to 0x proxy contract for maker and taker
     const setMakerAllowTxHash = await zeroEx.token.setUnlimitedProxyAllowanceAsync(ZRX_ADDRESS, makerAddress);
     await zeroEx.awaitTransactionMinedAsync(setMakerAllowTxHash);
@@ -46,6 +34,28 @@ const mainAsync = async () => {
     const setTakerAllowTxHash = await zeroEx.token.setUnlimitedProxyAllowanceAsync(WETH_ADDRESS, takerAddress);
     await zeroEx.awaitTransactionMinedAsync(setTakerAllowTxHash);
     console.log('Taker allowance mined...');
+};
+
+//Ethereum Virtual Machine doesn't use decimals so we need to set DECIMALS
+//to convert our amounts with BigNumber()
+// Number of decimals to use (for ETH and ZRX)
+const DECIMALS = 18;
+
+
+//hard code in accounts from testRPC:  (replace with user input addresses later )
+// Getting list of accounts
+const accounts = await zeroEx.getAvailableAddressesAsync();
+console.log('accounts: ', accounts);
+
+// Set maker and takers to the first 2 things in the testRPC accounts
+const [makerAddress, takerAddress] = accounts;
+
+
+
+const mainAsync = async () => {
+
+    setupAddresses();
+    setAllowances();
 
     // Deposit WETH
     const ethAmount = new BigNumber(1);
