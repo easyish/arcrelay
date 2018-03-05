@@ -4,6 +4,9 @@ import * as Web3 from 'web3';
 
 const TESTRPC_NETWORK_ID = 50;
 
+//
+//instantiate a zeroEx and a HttpProvider
+//
 // Provider pointing to local TestRPC on default port 8545
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 
@@ -13,15 +16,21 @@ const configs = {
 };
 const zeroEx = new ZeroEx(provider, configs);
 
+// set contract and exchange addresses
+const WETH_ADDRESS = zeroEx.etherToken.getContractAddressIfExists() as string; // The wrapped ETH token contract
+const ZRX_ADDRESS = zeroEx.exchange.getZRXTokenAddress(); // The ZRX token contract
+// The Exchange.sol address (0x exchange smart contract)
+const EXCHANGE_ADDRESS = zeroEx.exchange.getContractAddress();
+
+
+//Ethereum Virtual Machine doesn't use decimals so we need to set DECIMALS
+//to convert our amounts with BigNumber()
 // Number of decimals to use (for ETH and ZRX)
 const DECIMALS = 18;
 
+
+
 const mainAsync = async () => {
-    // Addresses
-    const WETH_ADDRESS = zeroEx.etherToken.getContractAddressIfExists() as string; // The wrapped ETH token contract
-    const ZRX_ADDRESS = zeroEx.exchange.getZRXTokenAddress(); // The ZRX token contract
-    // The Exchange.sol address (0x exchange smart contract)
-    const EXCHANGE_ADDRESS = zeroEx.exchange.getContractAddress();
 
     // Getting list of accounts
     const accounts = await zeroEx.getAvailableAddressesAsync();
