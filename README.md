@@ -92,7 +92,7 @@ open another terminal window (to leave open), cd into the project folder, and ru
 $ yarn testrpc
 `
 
-### Run index.ts
+### 5. Run index.ts
 To compile and run index.ts with all necessary dependencies,
 leave testRPC running in the 2nd terminal window, and in the 1st terminal window run:
 
@@ -100,7 +100,7 @@ leave testRPC running in the 2nd terminal window, and in the 1st terminal window
 $ yarn dev
 `
 
-
+to be continued.....
 
 
 [1] http://blog.teamtreehouse.com/install-node-js-npm-mac
