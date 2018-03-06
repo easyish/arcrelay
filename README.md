@@ -79,10 +79,16 @@ Install yarn
 $ brew install yarn --without -node
 `
 
-now cd into the main folder of the cloned or downloaded project and run
+now cd into the main folder of the cloned or downloaded project and run:
 
 `
 $ yarn
+`
+
+Pull the latest TestRPC 0x snapshot with all the 0x contracts pre-deployed:
+
+`
+yarn download_snapshot
 `
 
 ### 4. Start testRPC
