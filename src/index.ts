@@ -18,12 +18,12 @@ const TESTRPC_NETWORK_ID = 50;
 //TODO:Error handling for "Error: Invalid JSON RPC response: " --- this means testRPC is not running
 
 //
-//instantiate a zeroEx and a HttpProvider
+//instantiate a zeroEx instance
 //
-// Provider pointing to local TestRPC on default port 8545
+// create a provider pointing to local TestRPC on default port 8545
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 
-// Instantiate 0x.js instance
+// set configs
 const configs = {
     networkId: TESTRPC_NETWORK_ID,
 };
@@ -43,17 +43,21 @@ const EXCHANGE_ADDRESS = zeroEx.exchange.getContractAddress();
 // Number of decimals to use (for ETH and ZRX)
 const DECIMALS = 18;
 
+const logAddressesAsync = async () => {
+    try {
+        const availableAddresses = await zeroEx.getAvailableAddressesAsync();
+        console.log("Accounts:", availableAddresses);
+        return availableAddresses;
+    } catch (error) {
+        console.log( error);
+        return [];
+    }
+};
 
-
-const mainAsync = async () => {
+const mainAsync = async (makerAddress:string, takerAddress:string) => {
 
     //hard code in accounts from testRPC:  (replace with user input addresses later )
     // Getting list of accounts
-    const accounts = await zeroEx.getAvailableAddressesAsync();
-    console.log('accounts: ', accounts);
-
-    // Set maker and takers to the first 2 things in the testRPC accounts
-    const [makerAddress, takerAddress] = accounts;
 
     //set allowances
     // Unlimited allowances to 0x proxy contract for maker and taker
@@ -121,4 +125,9 @@ const mainAsync = async () => {
     console.log('FillOrder transaction receipt: ', txReceipt);
 };
 
-mainAsync().catch(console.error);
+const testRpcAccounts = logAddressesAsync();
+console.log("RPC accts: ", testRpcAccounts);
+
+
+// // Set maker and takers to the first 2 things in the testRPC accounts
+//     const [makerAddress, takerAddress] = accounts;
