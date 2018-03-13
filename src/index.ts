@@ -1,6 +1,18 @@
 import { DecodedLogEvent, ZeroEx } from '0x.js';
 import { BigNumber } from '@0xproject/utils';
 import * as Web3 from 'web3';
+import app from './App'
+
+
+const port = process.env.PORT || 3000
+
+app.listen(port, (err) => {
+  if (err) {
+    return console.log(err)
+  }
+
+  return console.log(`server is listening on ${port}`)
+})
 
 
 // import * as express from 'express';

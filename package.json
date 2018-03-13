@@ -18,6 +18,7 @@
         "snapshot_url": "https://s3.amazonaws.com/testrpc-shapshots/07d00cc515e0f9825b81595386b358593b7a3d6f.zip"
     },
     "devDependencies": {
+        "@types/express": "^4.11.1",
         "@types/node": "^8.0.53",
         "download-cli": "^1.0.5",
         "ethereumjs-testrpc": "^6.0.3",
