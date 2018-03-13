@@ -1,6 +1,8 @@
 # build files
 lib
 
+*.DS_Store
+
 # Testrpc snapshot files
 0x_testrpc_snapshot
 

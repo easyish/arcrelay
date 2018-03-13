@@ -54,10 +54,13 @@ const logAddressesAsync = async () => {
     }
 };
 
-const mainAsync = async (makerAddress:string, takerAddress:string) => {
+const mainAsync = async (makerAddress:string) => { //add amount and buy/sell token and expiration time
 
     //hard code in accounts from testRPC:  (replace with user input addresses later )
     // Getting list of accounts
+    const availableAddresses = await zeroEx.getAvailableAddressesAsync();
+
+    const takerAddress = "0x0000000000000000000000000000000000000000"
 
     //set allowances
     // Unlimited allowances to 0x proxy contract for maker and taker
@@ -105,6 +108,15 @@ const mainAsync = async (makerAddress:string, takerAddress:string) => {
         ecSignature,
     };
 
+};
+
+const hello_world_async = async (arg1:string) => {
+  console.log("hello world, " + arg1);
+  return;
+}
+
+const fillAsync = async (signedOrder:any, takerAddress:any) => {
+
     // Verify that order is fillable
     await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder);
 
@@ -123,10 +135,11 @@ const mainAsync = async (makerAddress:string, takerAddress:string) => {
     // Transaction receipt
     const txReceipt = await zeroEx.awaitTransactionMinedAsync(txHash);
     console.log('FillOrder transaction receipt: ', txReceipt);
-};
+}
 
-const testRpcAccounts = logAddressesAsync();
-console.log("RPC accts: ", testRpcAccounts);
+
+// const testRpcAccounts = logAddressesAsync();
+// console.log("RPC accts: ", testRpcAccounts);
 
 
 // // Set maker and takers to the first 2 things in the testRPC accounts

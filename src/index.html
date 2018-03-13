@@ -6,7 +6,7 @@
   <meta name="viewport" content="width-device-width, initial-scale-1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script src="0x.arcrelay/lib/index.js"></script>
+  <script type="text/javascript" src="/Users/Will/Documents/csdev/0xrelayer/arcrelay/lib/index.js"></script>
 
 
 </head>
@@ -37,7 +37,8 @@
   <input id="buying_input" type= "text">
   <br><br>
 
-  <button id="generate_button" onclick="Warn();">Generate Order Hash</button>
+  <button id="generate_button" onclick="run();">Generate Order Hash</button>
+  <!-- onclick was Warn()^^ -->
 
   <h6> Order Hash: </h6>
   <input id="hash_input" type="text" value="0x0000000000000000000" class="field left" readonly>
@@ -49,7 +50,8 @@
 
   <script>
 
-    logAddressesAsync();
+    hello_world_async("wowowww");
+    // logAddressesAsync();
     // var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     // web3.eth.defaultAccount = web3.eth.accounts[0];
     // var relayerContract = web3.eth.contract([{ "constant": true, "inputs" : [], "name": "getRelayer", "outputs": [{"name": "", "type": "bytes32"}], "payable": false, "type": "function"}, {"constant": false, "inputs": [{"name": "val", "type": "bytes32"}], "name": "setVal", "outputs": [], "payable": false, "type": "function"}]);
@@ -65,9 +67,14 @@
 
     var output = document.getElementById("output");
 
-    function run(){
+    async function run(){
       var selling_token = document.getElementById("selling_dropdown").value;
       var buying_token = document.getElementById("buying_dropdown").value;
+
+      // var hw = hello_world_async("wowow");
+      var testRpcAccounts = await logAddressesAsync();
+      alert("RPC accts: ", testRpcAccounts);
+
     }
 
 
@@ -76,8 +83,9 @@
     //  async();
       var sell_amount = document.getElementById("selling_input").value;
       var sell_token = document.getElementById("selling_dropdown").value;
-             alert ("Hash for order to sell " + sell_amount + " " + sell_token +" generated!");
-          }
+      alert ("Hash for order to sell " + sell_amount + " " + sell_token +" generated!");
+
+    }
 
 
     </script>
