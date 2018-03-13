@@ -6,34 +6,42 @@
   <meta name="viewport" content="width-device-width, initial-scale-1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script type="text/typescript" scr="index.ts"></script>
+  <script src="0x.arcrelay/lib/index.js"></script>
 
 
 </head>
 <body>
 
-  <h1> 0x Relayer</h1>
+  <h1>ArcRelay</h1>
 
-  <h3> Choose token: </h3>
+  <h4>Generate Order</h4>
+
+  <h6>Selling</h6>
   <div>
-    <select id="mydropdown" name="mydropdown">
-      <option value="ETH">ETH</option>
-      <option value="BTC">BTC</option>
-      <option value="XRP">XRP</option>
-      <option value="BCH">BCH</option>
-      <option value="LTC">LTC</option>
-      <option value="NEO">NEO</option>
-      <option value="ADA">ADA</option>
-      <option value="XLM">XLM</option>
-      <option value="XMR">XMR</option>
-      <option value="EOS">EOS</option>
+    <select id="selling_dropdown" name="mydropdown">
+      <option value="WETH">WETH</option>
+      <option value="ZRX">ZRX</option>
     </select>
   </div>
+  <h6> Sell amount: </h6>
+  <input id=selling_input type= "text">
 
-  <h3> Enter amount: </h3>
-  <input id="input" type= "text">
-  <h3> Complete order: </h3>
-  <button id="button" onclick="Warn();">Submit Order</button>
+  <h6>Buying</h6>
+  <div>
+    <select id="buying_dropdown" name="mydropdown">
+      <option value="WETH">WETH</option>
+      <option value="ZRX">ZRX</option>
+    </select>
+  </div>
+  <h6> Receive amount: </h6>
+  <input id="buying_input" type= "text">
+  <br><br>
+
+  <button id="generate_button" onclick="Warn();">Generate Order Hash</button>
+
+  <h6> Order Hash: </h6>
+  <input id="hash_input" type="text" value="0x0000000000000000000" class="field left" readonly>
+  <button id="sign_button" onclick="Warn();">Sign Hash</button>
 
   <pre id="output">
   </pre>
@@ -41,27 +49,34 @@
 
   <script>
 
-    var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-    web3.eth.defaultAccount = web3.eth.accounts[0];
-    var relayerContract = web3.eth.contract([{ "constant": true, "inputs" : [], "name": "getRelayer", "outputs": [{"name": "", "type": "bytes32"}], "payable": false, "type": "function"}, {"constant": false, "inputs": [{"name": "val", "type": "bytes32"}], "name": "setVal", "outputs": [], "payable": false, "type": "function"}]);
+    logAddressesAsync();
+    // var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+    // web3.eth.defaultAccount = web3.eth.accounts[0];
+    // var relayerContract = web3.eth.contract([{ "constant": true, "inputs" : [], "name": "getRelayer", "outputs": [{"name": "", "type": "bytes32"}], "payable": false, "type": "function"}, {"constant": false, "inputs": [{"name": "val", "type": "bytes32"}], "name": "setVal", "outputs": [], "payable": false, "type": "function"}]);
 
     var title = document.getElementById("title");
 
+    var selling_input = document.getElementById("selling_input");
+    var buying_input = document.getElementById("buying_input");
+    var generate_button = document.getElementById("generate_button");
+    var hash_input = document.getElementById("hash_input");
+    var sign_button = document.getElementById("sign_button");
 
-    var input = document.getElementById("input");
-    var button = document.getElementById("button");
+
     var output = document.getElementById("output");
 
     function run(){
-      var menu = document.getElementById("mydropdown").value;
+      var selling_token = document.getElementById("selling_dropdown").value;
+      var buying_token = document.getElementById("buying_dropdown").value;
     }
+
+
 
     function Warn() {
     //  async();
-      document.getElementById("input").value;
-      var amount = document.getElementById("input").value;
-      var menu = document.getElementById("mydropdown").value;
-             alert ("Order of " + amount + " " + menu +" submitted!");
+      var sell_amount = document.getElementById("selling_input").value;
+      var sell_token = document.getElementById("selling_dropdown").value;
+             alert ("Hash for order to sell " + sell_amount + " " + sell_token +" generated!");
           }
 
 
