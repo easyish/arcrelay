@@ -42,7 +42,7 @@
 
   <h6> Order Hash: </h6>
   <input id="hash_input" type="text" value="0x0000000000000000000" class="field left" readonly>
-  <button id="sign_button" onclick="Warn();">Sign Hash</button>
+  <button id="sign_button" onclick="SignHash();">Sign Hash</button>
 
   <pre id="output">
   </pre>
@@ -50,7 +50,21 @@
 
   <script>
 
-    hello_world_async("wowowww");
+  function httpGetAsync(theUrl, callback)
+    {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+          if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+              callback(xmlHttp.responseText);
+      }
+      xmlHttp.open("GET", theUrl, true); // true for asynchronous
+      xmlHttp.send(null);
+    }
+
+    function after_get(resp) {
+        alert(resp);
+    }
+
     // logAddressesAsync();
     // var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     // web3.eth.defaultAccount = web3.eth.accounts[0];
@@ -79,11 +93,13 @@
 
 
 
-    function Warn() {
+    function SignHash() {
     //  async();
-      var sell_amount = document.getElementById("selling_input").value;
-      var sell_token = document.getElementById("selling_dropdown").value;
-      alert ("Hash for order to sell " + sell_amount + " " + sell_token +" generated!");
+      httpGetAsync("http://localhost:3000", after_get );
+      // var sell_amount = document.getElementById("selling_input").value;
+      // var sell_token = document.getElementById("selling_dropdown").value;
+      // alert ("Hash for order to sell " + sell_amount + " " + sell_token +" generated!");
+
 
     }
 
