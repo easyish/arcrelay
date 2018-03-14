@@ -16,7 +16,7 @@ class App {
       allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
       credentials: true,
       methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-      origin: 'http://localhost:3000',
+      origin: 'http://localhost:8080',
       preflightContinue: false
     };
 
@@ -29,11 +29,13 @@ class App {
         message: 'Hello World!'
       })
     })
+
     this.express.use('/', router)
 
 
     //enable pre-flight
     router.options("*", cors(options));
+
     }
 }
 
