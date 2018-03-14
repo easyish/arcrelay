@@ -6,7 +6,7 @@
     "types": "lib/src/index.d.ts",
     "scripts": {
         "build": "tsc",
-        "dev": "npm run build; node ./lib/index.js",
+        "dev": "npm run build; node ./lib/server.js",
         "clean": "shx rm -rf _bundles lib",
         "lint": "tslint src/**/*.ts",
         "download_snapshot": "download --extract --strip 1 --out 0x_testrpc_snapshot ${npm_package_config_snapshot_url}",
@@ -33,8 +33,10 @@
         "0x.js": "0.32.2",
         "@0xproject/tslint-config": "^0.4.9",
         "@0xproject/utils": "^0.3.2",
+        "body-parser": "^1.18.2",
         "cors": "^2.8.4",
         "express": "^4.16.3",
+        "multer": "^1.3.0",
         "web3": "^0.20.0"
     }
 }

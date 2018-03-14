@@ -1,11 +1,30 @@
 import * as express from 'express'
 import * as cors from "cors";
+import * as index from './index'
+
+let bodyParser = require('body-parser');
+// let multer = require('multer');
+// let upload = multer();
+
+
+// create application/json parser
+let jsonParser = bodyParser.json()
+// create application/x-www-form-urlencoded parser
+let urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+
 
 class App {
   public express
 
   constructor () {
     this.express = express()
+
+    // this.express.use(bodyParser.json());
+    // this.express.use(bodyParser.urlencoded({
+    //     extended: true
+    // }));
+
     this.mountRoutes()
   }
 
@@ -24,9 +43,21 @@ class App {
     router.use(cors(options));
 
     //add your routes
-    router.get('/', (req, res) => {
+    router.get('/', index.hw_get
+    // (req, res) => {
+    //   res.json({
+    //     message: 'Hello World!'
+    //   })
+    // }
+    )
+
+    router.post('/', jsonParser, (req, res) => {
+      // let i:number = req.body.some_integer;
+      console.log(req.body);
       res.json({
-        message: 'Hello World!'
+        message: 'Hello World POST BOIII',
+        // message2: req,
+        // message3: req
       })
     })
 

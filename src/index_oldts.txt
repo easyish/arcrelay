@@ -1,18 +1,30 @@
 import { DecodedLogEvent, ZeroEx } from '0x.js';
 import { BigNumber } from '@0xproject/utils';
 import * as Web3 from 'web3';
+// import app from './App'
+//
+//
+// const port = process.env.PORT || 3000
+//
+// app.listen(port, (err) => {
+//   if (err) {
+//     return console.log(err)
+//   }
+//
+//   return console.log(`server is listening on ${port}`)
+// })
+// console.log("imported.")
 
+// import * as express from 'express';
 
-export const hw_get = async (req:any, res:any) => {
-  // console.log("we're calling hw_console.");
-  // return "hwconsole_retval";
-  res.json({
-    message: 'msg_from_hw_get'
-  })
-}
-
-
-
+// var express = require('express');
+// var app = express();
+// app.get('/', function (req, res) {
+//   res.send('Hello World!');
+// });
+// app.listen(3000, function () {
+//   console.log('Example app listening on port 3000!');
+// });
 
 
 const TESTRPC_NETWORK_ID = 50;
@@ -123,6 +135,26 @@ const mainAsync = async (makerAddress:string) => { //add amount and buy/sell tok
 
 };
 
+// export const hello_world_async = async (arg1:string) => {
+//   console.log("hello world, " + arg1);
+//   return;
+// }
+//
+// export const hw_console = async () => {
+//   console.log("we're calling hw_console.");
+//   return "hwconsole_retval";
+// }
+
+export const hw_get = async (request:any, response:any) => {
+  // console.log("we're calling hw_console.");
+  // return "hwconsole_retval";
+  res.json({
+    message: 'msg_from_hw_get'
+  })
+}
+
+
+
 const fillAsync = async (signedOrder:any, takerAddress:any) => {
 
     // Verify that order is fillable
@@ -148,6 +180,7 @@ const fillAsync = async (signedOrder:any, takerAddress:any) => {
 
 // const testRpcAccounts = logAddressesAsync();
 // console.log("RPC accts: ", testRpcAccounts);
+
 
 // // Set maker and takers to the first 2 things in the testRPC accounts
 //     const [makerAddress, takerAddress] = accounts;
