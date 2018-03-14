@@ -1,11 +1,13 @@
 import * as express from 'express'
 import * as cors from "cors";
 import * as index from './index'
+// import { DecodedLogEvent, ZeroEx } from '0x.js';
+// import { BigNumber } from '@0xproject/utils';
+// import * as Web3 from 'web3';
 
 let bodyParser = require('body-parser');
 // let multer = require('multer');
 // let upload = multer();
-
 
 // create application/json parser
 let jsonParser = bodyParser.json()
@@ -13,19 +15,35 @@ let jsonParser = bodyParser.json()
 let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
-
 class App {
   public express
 
   constructor () {
     this.express = express()
-
     // this.express.use(bodyParser.json());
     // this.express.use(bodyParser.urlencoded({
     //     extended: true
     // }));
-
     this.mountRoutes()
+
+
+    index.testAll()
+    // let ethAmount = 0.5;
+    // let wethDestAddress = "0x5409ed021d9299bf6814279a6a1411a7e866a631";
+    //
+    // index.convertWethAsync(ethAmount, wethDestAddress);
+    //
+    // let makerAddress:string = "0x5409ed021d9299bf6814279a6a1411a7e866a631";
+    // let takerAddress:string = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb";
+    //
+    // let makerToken:string = "ZRX";
+    // let takerToken:string = "WETH";
+    //
+    // let orderHash = index.createAsync(makerAddress, takerAddress, makerToken, takerToken);
+    // console.log("orderHash = ");
+    // console.log(orderHash);
+
+
   }
 
   private mountRoutes (): void {
@@ -43,26 +61,16 @@ class App {
     router.use(cors(options));
 
     //add your routes
-    router.get('/', index.hw_get
-    // (req, res) => {
-    //   res.json({
-    //     message: 'Hello World!'
-    //   })
-    // }
-    )
+    router.get('/', index.hw_get)
 
     router.post('/', jsonParser, (req, res) => {
-      // let i:number = req.body.some_integer;
       console.log(req.body);
       res.json({
         message: 'Hello World POST BOIII',
-        // message2: req,
-        // message3: req
       })
     })
 
     this.express.use('/', router)
-
 
     //enable pre-flight
     router.options("*", cors(options));
