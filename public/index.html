@@ -6,9 +6,7 @@
   <meta name="viewport" content="width-device-width, initial-scale-1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <!-- data-main="app" -->
-
-
+  <script src="httphelpers.js"></script>
 </head>
 <body>
 
@@ -38,48 +36,15 @@
   <br><br>
 
   <button id="generate_button" onclick="run();">Generate Order Hash</button>
-  <!-- onclick was Warn()^^ -->
 
   <h6> Order Hash: </h6>
   <input id="hash_input" type="text" value="0x0000000000000000000" class="field left" readonly>
-  <button id="sign_button" onclick="SignHash();">Sign Hash</button>
+  <button id="sign_button" onclick="helloworld_post();">Sign Hash</button>
 
-  <pre id="output">
-  </pre>
+  <pre id="output"></pre>
   <p id="orderDetails"></p>
 
   <script>
-
-  function httpGetAsync(theUrl, callback)
-    {
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.onreadystatechange = function() {
-          if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-              callback(xmlHttp.responseText);
-      }
-      xmlHttp.open("GET", theUrl, true); // true for asynchronous
-      xmlHttp.send(null);
-    }
-
-    function httpPostAsync(theUrl, params, callback)
-      {
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("POST", theUrl, true); // true for asynchronous //
-
-        xmlHttp.setRequestHeader("Content-type", "application/json"); // //x-www-form-urlencoded
-        //optional??
-
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-                callback(xmlHttp.responseText);
-        }
-
-        xmlHttp.send(JSON.stringify(params)); //json.stringify
-      }
-
-    function after_get(resp) {
-        alert(resp);
-    }
 
     // logAddressesAsync();
     // var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
@@ -107,20 +72,24 @@
 
     }
 
-
+    function helloworld_post() {
+      params = {"sent": "fromclient"};
+      httpPostAsync("http://localhost:3000/helloworld_post", params, alert);
+    }
 
     function SignHash() {
-    //  async();
-      // httpGetAsync("http://localhost:3000/", after_get );
+      var orderHash = document.getElementById("hash_input").value;
 
-      paramz = {some_integer: 3};  //"param1=4&also=5";
-      httpPostAsync("http://localhost:3000/", paramz, after_get );
+      var params = {
+        orderHash: orderHash,
+        makerAddress: null,
+        order: null //ok to send order to client?? or keep in server...
+      };
 
-
-      // var sell_amount = document.getElementById("selling_input").value;
-      // var sell_token = document.getElementById("selling_dropdown").value;
-      // alert ("Hash for order to sell " + sell_amount + " " + sell_token +" generated!");
-
+      // let orderHash:string = req.body.orderHash;
+      // let makerAddress:string = req.body.makerAddress;
+      // let order:any = req.body.order;
+      httpPostAsync("http://localhost:3000/api/sign", params, alert);
 
     }
 

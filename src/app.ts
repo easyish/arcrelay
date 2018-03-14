@@ -1,9 +1,8 @@
 import * as express from 'express'
 import * as cors from "cors";
-import * as index from './index'
-// import { DecodedLogEvent, ZeroEx } from '0x.js';
-// import { BigNumber } from '@0xproject/utils';
-// import * as Web3 from 'web3';
+import * as callbacks from './callbacks'; // previously index
+import { testAll } from './index';
+
 
 let bodyParser = require('body-parser');
 // let multer = require('multer');
@@ -12,7 +11,7 @@ let bodyParser = require('body-parser');
 // create application/json parser
 let jsonParser = bodyParser.json()
 // create application/x-www-form-urlencoded parser
-let urlencodedParser = bodyParser.urlencoded({ extended: false })
+// let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 class App {
@@ -27,22 +26,7 @@ class App {
     this.mountRoutes()
 
 
-    index.testAll()
-    // let ethAmount = 0.5;
-    // let wethDestAddress = "0x5409ed021d9299bf6814279a6a1411a7e866a631";
-    //
-    // index.convertWethAsync(ethAmount, wethDestAddress);
-    //
-    // let makerAddress:string = "0x5409ed021d9299bf6814279a6a1411a7e866a631";
-    // let takerAddress:string = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb";
-    //
-    // let makerToken:string = "ZRX";
-    // let takerToken:string = "WETH";
-    //
-    // let orderHash = index.createAsync(makerAddress, takerAddress, makerToken, takerToken);
-    // console.log("orderHash = ");
-    // console.log(orderHash);
-
+    testAll();
 
   }
 
@@ -61,14 +45,14 @@ class App {
     router.use(cors(options));
 
     //add your routes
-    router.get('/', index.hw_get)
+    router.get('/helloworld_get', jsonParser, callbacks.helloworld_get)
+    router.post('/helloworld_post', jsonParser, callbacks.helloworld_post)
 
-    router.post('/', jsonParser, (req, res) => {
-      console.log(req.body);
-      res.json({
-        message: 'Hello World POST BOIII',
-      })
-    })
+    router.post('/api/convert', jsonParser, callbacks.convertWethAsyncCaller);
+    router.post('/api/create', jsonParser, callbacks.createAsyncCaller);
+    router.post('/api/sign', jsonParser, callbacks.signAsyncCaller);
+    router.post('/api/fill', jsonParser, callbacks.fillAsyncCaller);
+
 
     this.express.use('/', router)
 

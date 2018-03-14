@@ -22,7 +22,7 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 ##### Install Ruby and GCC
 You'll need Ruby 1.8.6 or newer and GCC 4.2 or newer before you can install Node.js and NPM.
 
-For Ubuntu or Debian-based Linux distributions, run the following command in your terminal: 
+For Ubuntu or Debian-based Linux distributions, run the following command in your terminal:
 
 `
 $ sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
@@ -112,3 +112,12 @@ to be continued.....
 [1] http://blog.teamtreehouse.com/install-node-js-npm-mac
 
 [2] http://blog.teamtreehouse.com/install-node-js-npm-linux
+
+
+
+
+
+NOTE: need all three to work
+- run "python -m SimpleHTTPServer 8080" in 'public' directory to host client
+- run "yarn dev" to host server
+- run "yarn testrpc"

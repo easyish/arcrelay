@@ -4,18 +4,6 @@ import { TransactionReceiptWithDecodedLogs } from '@0xproject/types';
 import * as Web3 from 'web3';
 
 
-export const hw_get = async (req:any, res:any) => {
-  // console.log("we're calling hw_console.");
-  // return "hwconsole_retval";
-  res.json({
-    message: 'msg_from_hw_get'
-  })
-}
-
-
-
-
-
 const TESTRPC_NETWORK_ID = 50;
 
 //TODO: encapsulate this into "create", "sign", and "fill" functions
@@ -69,7 +57,6 @@ export const logAddressesAsync = async () => {
 };
 
 
-
 //call this with taker address before generating order
 export const convertWethAsync = async (intEthAmount:number, wethDestAddress :string) => {
   // Deposit WETH
@@ -87,18 +74,16 @@ export const convertWethAsync = async (intEthAmount:number, wethDestAddress :str
 
 export const createAsync = async (makerAddress:string, takerAddress:string, makerToken:string, takerToken:string) => { //add amount and buy/sell token and expiration time
 
-//switch makerToken
-//case "ZRX": makerTokenContractAddress = "ZRX_ADDRESS"
-//case "WETH": makerTokenContractAddress = "WETH_ADDRESS"
+  //switch makerToken
+  //case "ZRX": makerTokenContractAddress = "ZRX_ADDRESS"
+  //case "WETH": makerTokenContractAddress = "WETH_ADDRESS"
 
 
-  //switch takerToken
-    //case "ZRX": takerTokenContractAddress = "ZRX_ADDRESS"
-    //case "WETH": takerTokenContractAddress = "WETH_ADDRESS"
+    //switch takerToken
+      //case "ZRX": takerTokenContractAddress = "ZRX_ADDRESS"
+      //case "WETH": takerTokenContractAddress = "WETH_ADDRESS"
 
-//then just replace ZRX_ADDRESS and WETH_ADDRESS below with maker and takerTokenContractAddress
-
-
+  //then just replace ZRX_ADDRESS and WETH_ADDRESS below with maker and takerTokenContractAddress
 
     //hard code in accounts from testRPC:  (replace with user input addresses later )
     // Getting list of accounts
@@ -114,8 +99,6 @@ export const createAsync = async (makerAddress:string, takerAddress:string, make
     const setTakerAllowTxHash = await zeroEx.token.setUnlimitedProxyAllowanceAsync(WETH_ADDRESS, takerAddress);
     await zeroEx.awaitTransactionMinedAsync(setTakerAllowTxHash);
     console.log('Taker allowance mined...');
-
-
 
     // Generate order
     const order = {
