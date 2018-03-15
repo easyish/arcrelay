@@ -6,8 +6,6 @@ import * as Web3 from 'web3';
 
 const TESTRPC_NETWORK_ID = 50;
 
-//instantiate a zeroEx instance
-//
 // create a provider pointing to local TestRPC on default port 8545
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 
@@ -15,6 +13,8 @@ const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 const configs = {
     networkId: TESTRPC_NETWORK_ID,
 };
+
+// instantiate zeroEx
 const zeroEx = new ZeroEx(provider, configs);
 
 
@@ -26,8 +26,8 @@ const EXCHANGE_ADDRESS = zeroEx.exchange.getContractAddress();
 
 
 
-//Ethereum Virtual Machine doesn't use decimals so we need to set DECIMALS
-//to convert our amounts with BigNumber()
+// Ethereum Virtual Machine doesn't use decimals so we need to set DECIMALS
+// to convert our amounts with BigNumber()
 // Number of decimals to use (for ETH and ZRX)
 const DECIMALS = 18;
 
@@ -60,16 +60,15 @@ export const convertWethAsync = async (intEthAmount:number, wethDestAddress :str
 
 export const createAsync = async (makerAddress:string, takerAddress:string, makerToken:string, takerToken:string) => { //add amount and buy/sell token and expiration time
 
-  //switch makerToken
-  //case "ZRX": makerTokenContractAddress = "ZRX_ADDRESS"
-  //case "WETH": makerTokenContractAddress = "WETH_ADDRESS"
-
+    //switch makerToken
+    //case "ZRX": makerTokenContractAddress = "ZRX_ADDRESS"
+    //case "WETH": makerTokenContractAddress = "WETH_ADDRESS"
 
     //switch takerToken
-      //case "ZRX": takerTokenContractAddress = "ZRX_ADDRESS"
-      //case "WETH": takerTokenContractAddress = "WETH_ADDRESS"
+    //case "ZRX": takerTokenContractAddress = "ZRX_ADDRESS"
+    //case "WETH": takerTokenContractAddress = "WETH_ADDRESS"
 
-  //then just replace ZRX_ADDRESS and WETH_ADDRESS below with maker and takerTokenContractAddress
+    //then just replace ZRX_ADDRESS and WETH_ADDRESS below with maker and takerTokenContractAddress
 
     //hard code in accounts from testRPC:  (replace with user input addresses later )
     // Getting list of accounts
@@ -105,7 +104,6 @@ export const createAsync = async (makerAddress:string, takerAddress:string, make
     // Create orderHash
     const orderHash = ZeroEx.getOrderHashHex(order);
 
-    //remove
     console.log("orderHash = ", orderHash, "\n");
 
     // const unsignedOrder = {
@@ -152,7 +150,6 @@ export const fillAsync = async (signedOrder:any, takerAddress:string, fillAmount
     // Transaction receipt
     const txReceipt = await zeroEx.awaitTransactionMinedAsync(txHash);
     console.log('FillOrder transaction receipt: ', txReceipt);
-    //should probably return 0 or -1 success or failure or something
 
     return txReceipt;
 }
@@ -162,7 +159,7 @@ export const fillAsync = async (signedOrder:any, takerAddress:string, fillAmount
 // console.log("RPC accts: ", testRpcAccounts);
 
 // // Set maker and takers to the first 2 things in the testRPC accounts
-//     const [makerAddress, takerAddress] = accounts;
+// const [makerAddress, takerAddress] = accounts;
 
 export const testAll = async () => {
     let ethAmount = 0.5;
@@ -177,16 +174,15 @@ export const testAll = async () => {
     let takerToken:string = "WETH";
 
     let resp:any = await createAsync(makerAddress, takerAddress, makerToken, takerToken);
-
     let orderHash:string = resp[0];
     let order:any = resp[1];
 
-    await console.log("OH = ", orderHash);
     await console.log("order = ", order);
+    await console.log("orderHash = ", orderHash);
 
     let signedOrder:any = await signAsync(orderHash, makerAddress, order);
 
-    console.log("SignedOrder = ", signedOrder);
+    console.log("signedOrder = ", signedOrder);
 
     let fillAmount = 0.2; // partial fill
     const txReceipt:any = await fillAsync(signedOrder, takerAddress, fillAmount);

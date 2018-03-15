@@ -44,8 +44,8 @@
   <pre id="output"></pre>
   <p id="orderDetails"></p>
 
-  <input id="test_input" type="text" value="send_something" class="field left">
-  <button id="test_button" onclick="helloworld_post();">Test POST</button>
+  <input id="test_input" type="text" value="something" class="field left">
+  <button id="test_button" onclick="helloworld_post();">POST Test</button>
 
 
   <script>
@@ -70,7 +70,6 @@
       var selling_token = document.getElementById("selling_dropdown").value;
       var buying_token = document.getElementById("buying_dropdown").value;
 
-      // var hw = hello_world_async("wowow");
       var testRpcAccounts = await logAddressesAsync();
       alert("RPC accts: ", testRpcAccounts);
 
