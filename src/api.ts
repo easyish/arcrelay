@@ -1,7 +1,7 @@
 import * as express from 'express'
 import * as cors from "cors";
 import * as callbacks from './callbacks'; // previously index
-import { testAll } from './index';
+import { testAll } from './contracts';
 
 
 let bodyParser = require('body-parser');
@@ -14,7 +14,7 @@ let jsonParser = bodyParser.json()
 // let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
-class App {
+class API {
   public express
 
   constructor () {
@@ -62,4 +62,4 @@ class App {
     }
 }
 
-export default new App().express
+export default new API().express

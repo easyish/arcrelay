@@ -1,4 +1,4 @@
-import * as index from './index';
+import * as contracts from './contracts';
 
 export const helloworld_get = async (req:any, res:any) => {
   // console.log("we're calling hw_console.");
@@ -8,9 +8,9 @@ export const helloworld_get = async (req:any, res:any) => {
 }
 
 export const helloworld_post = async (req:any, res:any) => {
-  // console.log(req.body);
+  console.log(req.body);
   res.json({
-    res: 'Hello World POST',
+    returned: 'Hello World POST',
   })
 }
 
@@ -18,7 +18,7 @@ export const convertWethAsyncCaller = async (req:any, res:any) => {
   let ethAmount:number = req.body.ethAmount; //0.5;
   let wethDestAddress:string = req.body.wethDestAddress; //"0x6ecbe1db9ef729cbe972c83fb886247691fb6beb";
 
-  index.convertWethAsync(ethAmount, wethDestAddress);
+  contracts.convertWethAsync(ethAmount, wethDestAddress);
 
   res.json({
     message: 'convertWethAsync success'
@@ -32,7 +32,7 @@ export const createAsyncCaller = async (req:any, res:any) => {
 
   let makerToken:string = req.body.makerToken; //"ZRX";
   let takerToken:string = req.body.takerToken; //"WETH";
-  let resp:any = await index.createAsync(makerAddress, takerAddress, makerToken, takerToken);
+  let resp:any = await contracts.createAsync(makerAddress, takerAddress, makerToken, takerToken);
 
   let orderHash:string = resp[0];
   let order:any = resp[1];
@@ -48,7 +48,7 @@ export const signAsyncCaller = async (req:any, res:any) => {
   let makerAddress:string = req.body.makerAddress;
   let order:any = req.body.order;
 
-  let signedOrder:any = await index.signAsync(orderHash, makerAddress, order);
+  let signedOrder:any = await contracts.signAsync(orderHash, makerAddress, order);
 
   res.json({
     signedOrder: signedOrder,
@@ -60,7 +60,7 @@ export const fillAsyncCaller = async (req:any, res:any) => {
   let takerAddress:string = req.body.takerAddress;
   let fillAmount:number = req.body.fillAmount; //partial fill ?
 
-  const txReceipt:any = await index.fillAsync(signedOrder, takerAddress, fillAmount);
+  const txReceipt:any = await contracts.fillAsync(signedOrder, takerAddress, fillAmount);
 
   res.json({
     txReceipt: txReceipt,

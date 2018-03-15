@@ -44,6 +44,10 @@
   <pre id="output"></pre>
   <p id="orderDetails"></p>
 
+  <input id="test_input" type="text" value="send_something" class="field left">
+  <button id="test_button" onclick="helloworld_post();">Test POST</button>
+
+
   <script>
 
     // logAddressesAsync();
@@ -73,7 +77,8 @@
     }
 
     function helloworld_post() {
-      params = {"sent": "fromclient"};
+      var something = document.getElementById("test_input").value;
+      params = {"sent-from-client": something};
       httpPostAsync("http://localhost:3000/helloworld_post", params, alert);
     }
 

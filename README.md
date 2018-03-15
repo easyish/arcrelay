@@ -121,3 +121,9 @@ NOTE: need all three to work
 - run "python -m SimpleHTTPServer 8080" in 'public' directory to host client
 - run "yarn dev" to host server
 - run "yarn testrpc"
+
+
+
+close port:
+$ lsof -i :<PORT>
+$ kill -9 <PID>

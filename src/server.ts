@@ -1,8 +1,8 @@
-import app from './App'
+import api from './api'
 
 const port = process.env.PORT || 3000
 
-app.listen(port, (err) => {
+api.listen(port, (err) => {
   if (err) {
     return console.log(err)
   }
