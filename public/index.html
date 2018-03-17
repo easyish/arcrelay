@@ -9,21 +9,22 @@
   <script src="httphelpers.js"></script>
 </head>
 <body>
-  <h4>Convert ETH to WETH</h4>
+  <hr>
+  <h2>Convert ETH to WETH</h2>
   <h6>Amount to Convert</h6>
-  <input id="weth_amount_input" type="text" class="field left"> ETH
+  <input id="weth_amount_input" type="text" class="field left" value=".1"> ETH
 
   <h6>WETH Destination Address</h6>
-  <input id="weth_address_input" type="text" class="field left">
+  <input id="weth_address_input" size="60" type="text" class="field left" value = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb">
   <button id="convert_button" onclick="ConvertWethButton();">Convert</button>
-
-  <h4>Generate Order</h4>
+  <hr>
+  <h2>Generate Order</h2>
 
   <h6>Maker Address</h6>
-  <input id="maker_input" type="text" class="field left" value="0x5409ed021d9299bf6814279a6a1411a7e866a631">
+  <input id="maker_input" size="60" type="text" class="field left" value="0x5409ed021d9299bf6814279a6a1411a7e866a631">
 
   <h6>Taker Address</h6>
-  <input id="taker_input" type="text" class="field left" value = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb">
+  <input id="taker_input" size="60" type="text" class="field left" value = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb">
 
   <h6>Selling Token</h6>
   <div>
@@ -47,16 +48,26 @@
   <br><br>
 
   <button id="generate_button" onclick="CreateOrderButton();">Create Order Hash</button>
-
+  <hr>
+  <h2>Sign Order</h2>
   <h6> Order Hash: </h6>
-  <input id="hash_input" type="text" placeholder="0x0000000000000000000" class="field left" readonly>
-  <button id="sign_button" onclick="helloworld_post();">Sign Hash</button>
+  <input id="hash_input" size="60" type="text" placeholder="0x0000000000000000000" class="field left" readonly>
+  <button id="sign_button" onclick="SignHashButton();">Sign Hash</button>
+  <br>
+  <h6> Signed Order: </h6>
+  <textarea id="signed_textarea" style="width: 500px" rows="10" readonly></textarea>
 
-  <pre id="output"></pre>
-  <p id="orderDetails"></p>
+  <hr>
+  <h2>Fill Order</h2>
+  <h6> Order Object: </h6>
+  <textarea id="fill_textarea" style="width: 500px" rows="10"></textarea>
+  <h6>Taker Address</h6>
+  <input id="taker_input_2" size="60" type="text" class="field left" value = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb">
+  <h6>Fill Amount</h6>
+  <input id="fill_amount_input" type="text" class="field left">
+  <button id="fill_button" onclick="FillOrderButton();">Fill Order</button>
 
-  <input id="test_input" type="text" value="something" class="field left">
-  <button id="test_button" onclick="helloworld_post();">POST Test</button>
+  <hr>
 
 
   <script>
@@ -81,37 +92,27 @@
     var buying_input = document.getElementById("buying_input");
     var generate_button = document.getElementById("generate_button");
 
+    //sign frontend elements
+    var hash_input = document.getElementById("hash_input");
+    var signed_textarea = document.getElementById("signed_textarea");
 
     //fill frontend elements
-    var hash_input = document.getElementById("hash_input");
-    var sign_button = document.getElementById("sign_button");
+    var fill_textarea = document.getElementById("fill_textarea");
+    var taker_input_2 = document.getElementById("taker_input_2");
+    var fill_amount_input = document.getElementById("fill_amount_input");
 
-
-    var output = document.getElementById("output");
 
     //empty order for passing from create to fill
     var order = null;
 
-    // async function run(){
-    //   var selling_token = document.getElementById("selling_dropdown").value;
-    //   var buying_token = document.getElementById("buying_dropdown").value;
-    //
-    //   var testRpcAccounts = await logAddressesAsync();
-    //   alert("RPC accts: ", testRpcAccounts);
-    //
-    // }
 
     function ConvertWethButton() {
-      var ethAmount = weth_amount_input.value;
-      var wethDestAddress = weth_address_input.value;
-      params = {
-          "ethAmount": ethAmount,
-          "wethDestAddress": wethDestAddress
+      var params = {
+          "ethAmount": weth_amount_input.value,
+          "wethDestAddress": weth_address_input.value
       };
       httpPostAsync("http://localhost:3000/api/convert", params, ConvertCallback);
 
-      //replace alert with callbackfxn
-      //alert of success or print shit out into output box or whatever
     }
     function ConvertCallback(res) {
         var resp_obj = JSON.parse(res);
@@ -120,19 +121,13 @@
 
 
     function CreateOrderButton(){
-        var makerAddress = maker_input.value;
-        var takerAddress = taker_input.value;
-        var makerToken = selling_dropdown.value;
-        var makerAmount = selling_input.value;
-        var takerToken = buying_dropdown.value;
-        var takerAmount = buying_input.value;
-        params = {
-            "makerAddress": makerAddress,
-            "takerAddress": takerAddress,
-            "makerToken": makerToken,
-            "takerToken": takerToken,
-            "makerAmount": makerAmount,
-            "takerAmount": takerAmount
+        var params = {
+            "makerAddress": maker_input.value,
+            "takerAddress": taker_input.value,
+            "makerToken": selling_dropdown.value,
+            "takerToken": buying_dropdown.value,
+            "makerAmount": selling_input.value,
+            "takerAmount": buying_input.value
         }
         httpPostAsync("http://localhost:3000/api/create", params, CreateCallback);
     }
@@ -148,25 +143,35 @@
 
 
     function SignHashButton() {
-      var orderHash = hash_input.value;
+        var params = {
+            "orderHash": hash_input.value,
+            "makerAddress": maker_input.value,
+            "order": order //this could be bad security to have order on client side.. change later
+        }
 
-      var params = {
-        orderHash: orderHash,
-        makerAddress: null,
-        order: order //this could be bad security to have order on client side.. change later
-      };
-
-      // let orderHash:string = req.body.orderHash;
-      // let makerAddress:string = req.body.makerAddress;
-      // let order:any = req.body.order;
-      httpPostAsync("http://localhost:3000/api/sign", params, alert);
-
+        httpPostAsync("http://localhost:3000/api/sign", params, SignCallback);
     }
-    function SignCallback() {
-
+    function SignCallback(res) {
+        var resp_obj = JSON.parse(res);
+        signed_textarea.value = JSON.stringify(resp_obj.signedOrder);
+        alert("Order Signed.");
     }
 
     function FillOrderButton(){
+        var params = {
+            "signedOrder": JSON.parse(fill_textarea.value),
+            "takerAddress": taker_input_2.value,
+            "fillAmount": fill_amount_input.value //this could be bad security to have order on client side.. change later
+        }
+
+        httpPostAsync("http://localhost:3000/api/fill", params, FillCallback);
+
+    }
+    function FillCallback(){
+        var resp_obj = JSON.parse(res);
+        txReceipt = resp_obj.txReceipt;
+        msg_text = "Taker filled " + fill_amount_input.value + " of order" + "\nTransaction Receipt: " + txReceipt;
+        alert(msg_text);
 
     }
 

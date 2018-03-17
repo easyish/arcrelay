@@ -41,15 +41,17 @@ class API {
     //use cors middleware
     router.use(cors(options));
 
-    //add your routes
-    router.get('/helloworld_get', jsonParser, callbacks.helloworld_get)
-    router.post('/helloworld_post', jsonParser, callbacks.helloworld_post)
+    //add routes
 
+    //test routes
+    // router.get('/helloworld_get', jsonParser, callbacks.helloworld_get)
+    // router.post('/helloworld_post', jsonParser, callbacks.helloworld_post)
+
+    //4 main post endpoints
     router.post('/api/convert', jsonParser, callbacks.convertWethAsyncCaller);
     router.post('/api/create', jsonParser, callbacks.createAsyncCaller);
     router.post('/api/sign', jsonParser, callbacks.signAsyncCaller);
     router.post('/api/fill', jsonParser, callbacks.fillAsyncCaller);
-
 
     this.express.use('/', router)
 

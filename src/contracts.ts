@@ -51,7 +51,7 @@ export const convertWethAsync = async (intEthAmount:number, wethDestAddress :str
 
   const convertEthTxHash = await zeroEx.etherToken.depositAsync(WETH_ADDRESS, ethToConvert, wethDestAddress);
   const txReceipt = await zeroEx.awaitTransactionMinedAsync(convertEthTxHash);
-  console.log('${ethAmount} ETH -> WETH conversion mined...');
+  console.log(intEthAmount + ' ETH -> WETH conversion mined...');
   console.log('Eth2Weth transaction receipt: ', txReceipt);
 
   return txReceipt;
@@ -117,6 +117,9 @@ export const signAsync = async (orderHash:string, makerAddress:string, order:any
       ...order,
       ecSignature,
   };
+
+  console.log("Signed order...");
+  console.log("Signature: " + JSON.stringify(ecSignature))
 
   return signedOrder;
 };
