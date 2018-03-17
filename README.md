@@ -98,7 +98,15 @@ open another terminal window (to leave open), cd into the project folder, and ru
 $ yarn testrpc
 `
 
-### 5. Run index.ts
+### 5. Start the frontend on a SimpleHTTPServer
+run this in 'public' directory to host the `index.html` client:
+
+`
+python -m SimpleHTTPServer 8080
+`
+
+
+### 6. Run index.ts
 To compile and run index.ts with all necessary dependencies,
 leave testRPC running in the 2nd terminal window, and in the 1st terminal window run:
 
@@ -106,24 +114,19 @@ leave testRPC running in the 2nd terminal window, and in the 1st terminal window
 $ yarn dev
 `
 
-to be continued.....
+At this point you should be able to interact with the frontend in order to create orders on the testRPC blockchain
+
+### tl;dr: you need all three of these to work:
+- run `python -m SimpleHTTPServer 8080` in 'public' directory to host client
+- run `yarn dev` to host server
+- run `yarn testrpc`
+
+
+#### NOTE: If you accidentally close a part of the application with CTRL-Z instead of CTRL-C, you may need to kill the process using the port:
+`$ lsof -i :<PORT>`
+`$ kill -9 <PID>`
 
 
 [1] http://blog.teamtreehouse.com/install-node-js-npm-mac
 
 [2] http://blog.teamtreehouse.com/install-node-js-npm-linux
-
-
-
-
-
-NOTE: need all three to work
-- run "python -m SimpleHTTPServer 8080" in 'public' directory to host client
-- run "yarn dev" to host server
-- run "yarn testrpc"
-
-
-
-close port:
-$ lsof -i :<PORT>
-$ kill -9 <PID>

@@ -3,11 +3,6 @@ TODO.md
 
 In index.ts:
 
-//TODO: encapsulate this into "create", "sign", and "fill" functions
-// (figure out if/how this can be done asynchronously)
-
-//TODO: figure out how to call these functions from javascript code inside index.html
-
 //TODO: Read through the OrderWatcher documentation and use it to implement order pruning
 
 //TODO Have create, sign, fill order functionality working through html page with amounts, token types, and addresses being input
