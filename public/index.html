@@ -153,13 +153,16 @@
       var params = {
         orderHash: orderHash,
         makerAddress: null,
-        order: null //ok to send order to client?? or keep in server...
+        order: order //this could be bad security to have order on client side.. change later
       };
 
       // let orderHash:string = req.body.orderHash;
       // let makerAddress:string = req.body.makerAddress;
       // let order:any = req.body.order;
       httpPostAsync("http://localhost:3000/api/sign", params, alert);
+
+    }
+    function SignCallback() {
 
     }
 

@@ -60,23 +60,20 @@ export const convertWethAsync = async (intEthAmount:number, wethDestAddress :str
 
 export const createAsync = async (makerAddress:string, takerAddress:string, makerToken:string, takerToken:string, makerAmount:number, takerAmount:number) => { //add amount and buy/sell token and expiration time
 
-    //switch makerToken
-    //case "ZRX": makerTokenContractAddress = "ZRX_ADDRESS"
-    //case "WETH": makerTokenContractAddress = "WETH_ADDRESS"
+    const contracts = {
+        "ZRX": ZRX_ADDRESS,
+        "WETH": WETH_ADDRESS
+    }
 
-    //switch takerToken
-    //case "ZRX": takerTokenContractAddress = "ZRX_ADDRESS"
-    //case "WETH": takerTokenContractAddress = "WETH_ADDRESS"
-
-    //then just replace ZRX_ADDRESS and WETH_ADDRESS below with maker and takerTokenContractAddress
+    //could wrap this in a try - catch, but there should always be a value from the dropdown
+    let makerTokenAddress = contracts[makerToken];
+    let takerTokenAddress = contracts[takerToken];
 
     //hard code in accounts from testRPC:  (replace with user input addresses later )
     // Getting list of accounts
-    const availableAddresses = await zeroEx.getAvailableAddressesAsync();
+    //const availableAddresses = await zeroEx.getAvailableAddressesAsync();
 
-    // const takerAddress = "0x0000000000000000000000000000000000000000"
-
-    //set allowances
+    //set allowances, we just use unlimited for now, make rules later
     // Unlimited allowances to 0x proxy contract for maker and taker
     const setMakerAllowTxHash = await zeroEx.token.setUnlimitedProxyAllowanceAsync(ZRX_ADDRESS, makerAddress);
     await zeroEx.awaitTransactionMinedAsync(setMakerAllowTxHash);
@@ -90,8 +87,8 @@ export const createAsync = async (makerAddress:string, takerAddress:string, make
         maker: makerAddress,
         taker: ZeroEx.NULL_ADDRESS,
         feeRecipient: ZeroEx.NULL_ADDRESS,
-        makerTokenAddress: ZRX_ADDRESS,
-        takerTokenAddress: WETH_ADDRESS,
+        makerTokenAddress: makerTokenAddress,
+        takerTokenAddress: takerTokenAddress,
         exchangeContractAddress: EXCHANGE_ADDRESS,
         salt: ZeroEx.generatePseudoRandomSalt(),
         makerFee: new BigNumber(0),
@@ -106,11 +103,7 @@ export const createAsync = async (makerAddress:string, takerAddress:string, make
 
     console.log("orderHash = ", orderHash, "\n");
 
-    // const unsignedOrder = {
-    //     order: order,
-    //     orderHash: orderHash,
-    // };
-
+    //return the order hash and order JSON object
     return [orderHash, order];
 };
 
@@ -155,12 +148,8 @@ export const fillAsync = async (signedOrder:any, takerAddress:string, fillAmount
 }
 
 
-// const testRpcAccounts = logAddressesAsync();
-// console.log("RPC accts: ", testRpcAccounts);
 
-// // Set maker and takers to the first 2 things in the testRPC accounts
-// const [makerAddress, takerAddress] = accounts;
-
+//calls all the functions contained in this file with some smaple inputs for testing purposes
 export const testAll = async () => {
     let ethAmount = 0.5;
     let wethDestAddress = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb";
