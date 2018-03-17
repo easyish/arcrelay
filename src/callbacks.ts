@@ -7,6 +7,7 @@ export const helloworld_get = async (req:any, res:any) => {
   })
 }
 
+//used for testing post from client side to server side
 export const helloworld_post = async (req:any, res:any) => {
   console.log(req.body);
   res.json({
@@ -20,8 +21,10 @@ export const convertWethAsyncCaller = async (req:any, res:any) => {
 
   contracts.convertWethAsync(ethAmount, wethDestAddress);
 
+  let msg_text:string = 'converted ' + ethAmount.toString() +  ' ETH to WETH';
+
   res.json({
-    message: 'convertWethAsync success'
+    message: msg_text
   })
 };
 
@@ -32,7 +35,10 @@ export const createAsyncCaller = async (req:any, res:any) => {
 
   let makerToken:string = req.body.makerToken; //"ZRX";
   let takerToken:string = req.body.takerToken; //"WETH";
-  let resp:any = await contracts.createAsync(makerAddress, takerAddress, makerToken, takerToken);
+  let makerAmount:number = req.body.makerAmount;
+  let takerAmount:number = req.body.takerAmount;
+  
+  let resp:any = await contracts.createAsync(makerAddress, takerAddress, makerToken, takerToken, makerAmount, takerAmount);
 
   let orderHash:string = resp[0];
   let order:any = resp[1];

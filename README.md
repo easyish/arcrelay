@@ -98,6 +98,8 @@ open another terminal window (to leave open), cd into the project folder, and ru
 $ yarn testrpc
 `
 
+this sets up an Ethereum testnet on the local machine
+
 ### 5. Start the frontend on a SimpleHTTPServer
 run this in 'public' directory to host the `index.html` client:
 
@@ -106,8 +108,8 @@ python -m SimpleHTTPServer 8080
 `
 
 
-### 6. Run index.ts
-To compile and run index.ts with all necessary dependencies,
+### 6. Run the backend server
+To compile and run server.ts with all necessary dependencies,
 leave testRPC running in the 2nd terminal window, and in the 1st terminal window run:
 
 `
@@ -126,7 +128,8 @@ At this point you should be able to interact with the frontend in order to creat
 `$ lsof -i :<PORT>`
 `$ kill -9 <PID>`
 
-
 [1] http://blog.teamtreehouse.com/install-node-js-npm-mac
 
 [2] http://blog.teamtreehouse.com/install-node-js-npm-linux
+
+Huge credits to 0x team and 0x wiki

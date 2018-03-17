@@ -25,9 +25,6 @@ class API {
     // }));
     this.mountRoutes()
 
-
-    testAll();
-
   }
 
   private mountRoutes (): void {

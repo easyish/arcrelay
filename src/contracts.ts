@@ -58,7 +58,7 @@ export const convertWethAsync = async (intEthAmount:number, wethDestAddress :str
 };
 
 
-export const createAsync = async (makerAddress:string, takerAddress:string, makerToken:string, takerToken:string) => { //add amount and buy/sell token and expiration time
+export const createAsync = async (makerAddress:string, takerAddress:string, makerToken:string, takerToken:string, makerAmount:number, takerAmount:number) => { //add amount and buy/sell token and expiration time
 
     //switch makerToken
     //case "ZRX": makerTokenContractAddress = "ZRX_ADDRESS"
@@ -96,8 +96,8 @@ export const createAsync = async (makerAddress:string, takerAddress:string, make
         salt: ZeroEx.generatePseudoRandomSalt(),
         makerFee: new BigNumber(0),
         takerFee: new BigNumber(0),
-        makerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.2), DECIMALS), // Base 18 decimals
-        takerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(0.3), DECIMALS), // Base 18 decimals
+        makerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(makerAmount), DECIMALS), // Base 18 decimals
+        takerTokenAmount: ZeroEx.toBaseUnitAmount(new BigNumber(takerAmount), DECIMALS), // Base 18 decimals
         expirationUnixTimestampSec: new BigNumber(Date.now() + 3600000), // Valid for up to an hour
     };
 
@@ -173,7 +173,10 @@ export const testAll = async () => {
     let makerToken:string = "ZRX";
     let takerToken:string = "WETH";
 
-    let resp:any = await createAsync(makerAddress, takerAddress, makerToken, takerToken);
+    let makerAmount:number = 0.2;
+    let takerAmount:number = 0.3;
+
+    let resp:any = await createAsync(makerAddress, takerAddress, makerToken, takerToken, makerAmount, takerAmount);
     let orderHash:string = resp[0];
     let order:any = resp[1];
 

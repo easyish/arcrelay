@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title> 0x Relayer </title>
+  <img src="arcrelay_logo.png" width="200px" >
+  <title>ArcRelay</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width-device-width, initial-scale-1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
   <script src="httphelpers.js"></script>
 </head>
 <body>
+  <h4>Convert ETH to WETH</h4>
+  <h6>Amount to Convert</h6>
+  <input id="weth_amount_input" type="text" class="field left"> ETH
 
-  <h1>ArcRelay</h1>
+  <h6>WETH Destination Address</h6>
+  <input id="weth_address_input" type="text" class="field left">
+  <button id="convert_button" onclick="ConvertWethButton();">Convert</button>
 
   <h4>Generate Order</h4>
 
-  <h6>Selling</h6>
+  <h6>Maker Address</h6>
+  <input id="maker_input" type="text" class="field left" value="0x5409ed021d9299bf6814279a6a1411a7e866a631">
+
+  <h6>Taker Address</h6>
+  <input id="taker_input" type="text" class="field left" value = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb">
+
+  <h6>Selling Token</h6>
   <div>
     <select id="selling_dropdown" name="mydropdown">
-      <option value="WETH">WETH</option>
       <option value="ZRX">ZRX</option>
+      <option value="WETH">WETH</option>
     </select>
   </div>
   <h6> Sell amount: </h6>
-  <input id=selling_input type= "text">
+  <input id=selling_input type= "text" value =".2">
 
-  <h6>Buying</h6>
+  <h6>Buying Token</h6>
   <div>
     <select id="buying_dropdown" name="mydropdown">
       <option value="WETH">WETH</option>
@@ -32,13 +43,13 @@
     </select>
   </div>
   <h6> Receive amount: </h6>
-  <input id="buying_input" type= "text">
+  <input id="buying_input" type= "text" value =".3">
   <br><br>
 
-  <button id="generate_button" onclick="run();">Generate Order Hash</button>
+  <button id="generate_button" onclick="CreateOrderButton();">Create Order Hash</button>
 
   <h6> Order Hash: </h6>
-  <input id="hash_input" type="text" value="0x0000000000000000000" class="field left" readonly>
+  <input id="hash_input" type="text" placeholder="0x0000000000000000000" class="field left" readonly>
   <button id="sign_button" onclick="helloworld_post();">Sign Hash</button>
 
   <pre id="output"></pre>
@@ -57,32 +68,87 @@
 
     var title = document.getElementById("title");
 
+    //convert frontend elements
+    var weth_amount_input = document.getElementById("weth_amount_input");
+    var weth_address_input = document.getElementById("weth_address_input");
+
+    //create frontend elements
+    var maker_input = document.getElementById("maker_input");
+    var taker_input = document.getElementById("taker_input");
+    var selling_dropdown = document.getElementById("selling_dropdown");
     var selling_input = document.getElementById("selling_input");
+    var buying_dropdown = document.getElementById("buying_dropdown");
     var buying_input = document.getElementById("buying_input");
     var generate_button = document.getElementById("generate_button");
+
+
+    //fill frontend elements
     var hash_input = document.getElementById("hash_input");
     var sign_button = document.getElementById("sign_button");
 
 
     var output = document.getElementById("output");
 
-    async function run(){
-      var selling_token = document.getElementById("selling_dropdown").value;
-      var buying_token = document.getElementById("buying_dropdown").value;
+    //empty order for passing from create to fill
+    var order = null;
 
-      var testRpcAccounts = await logAddressesAsync();
-      alert("RPC accts: ", testRpcAccounts);
+    // async function run(){
+    //   var selling_token = document.getElementById("selling_dropdown").value;
+    //   var buying_token = document.getElementById("buying_dropdown").value;
+    //
+    //   var testRpcAccounts = await logAddressesAsync();
+    //   alert("RPC accts: ", testRpcAccounts);
+    //
+    // }
 
+    function ConvertWethButton() {
+      var ethAmount = weth_amount_input.value;
+      var wethDestAddress = weth_address_input.value;
+      params = {
+          "ethAmount": ethAmount,
+          "wethDestAddress": wethDestAddress
+      };
+      httpPostAsync("http://localhost:3000/api/convert", params, ConvertCallback);
+
+      //replace alert with callbackfxn
+      //alert of success or print shit out into output box or whatever
+    }
+    function ConvertCallback(res) {
+        var resp_obj = JSON.parse(res);
+        alert(resp_obj.message)
     }
 
-    function helloworld_post() {
-      var something = document.getElementById("test_input").value;
-      params = {"sent-from-client": something};
-      httpPostAsync("http://localhost:3000/helloworld_post", params, alert);
+
+    function CreateOrderButton(){
+        var makerAddress = maker_input.value;
+        var takerAddress = taker_input.value;
+        var makerToken = selling_dropdown.value;
+        var makerAmount = selling_input.value;
+        var takerToken = buying_dropdown.value;
+        var takerAmount = buying_input.value;
+        params = {
+            "makerAddress": makerAddress,
+            "takerAddress": takerAddress,
+            "makerToken": makerToken,
+            "takerToken": takerToken,
+            "makerAmount": makerAmount,
+            "takerAmount": takerAmount
+        }
+        httpPostAsync("http://localhost:3000/api/create", params, CreateCallback);
+    }
+    function CreateCallback(res) {
+        var resp_obj = JSON.parse(res);
+        hash_input.value = resp_obj.orderHash;
+        order = resp_obj.order;
+
+        msg_text = "Order to sell " + selling_input.value + " " + selling_dropdown.value + " for " + buying_input.value + " " + buying_dropdown.value + " generated."
+        alert(msg_text);
+        //need to get order variable and keep it for fill function
     }
 
-    function SignHash() {
-      var orderHash = document.getElementById("hash_input").value;
+
+    function SignHashButton() {
+      var orderHash = hash_input.value;
 
       var params = {
         orderHash: orderHash,
@@ -94,6 +160,10 @@
       // let makerAddress:string = req.body.makerAddress;
       // let order:any = req.body.order;
       httpPostAsync("http://localhost:3000/api/sign", params, alert);
+
+    }
+
+    function FillOrderButton(){
 
     }
 
