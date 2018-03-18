@@ -118,18 +118,36 @@ $ yarn dev
 
 At this point you should be able to interact with the frontend in order to create orders on the testRPC blockchain
 
-### tl;dr: you need all three of these to work:
+### tl;dr -- you need all three of these to work:
 - run `python -m SimpleHTTPServer 8080` in 'public' directory to host client
 - run `yarn dev` to host server
 - run `yarn testrpc`
 
 
-#### NOTE: If you accidentally close a part of the application with CTRL-Z instead of CTRL-C, you may need to kill the process using the port:
+#### NOTE - If you accidentally close a part of the application with CTRL-Z instead of CTRL-C, you may need to kill the process using the port with:
 `$ lsof -i :<PORT>`
 `$ kill -9 <PID>`
+
+### Explanation of order fields:
+maker : Ethereum address of our Maker.
+taker : Ethereum address of our Taker.
+feeRecipient : Ethereum address of our Relayer (none for now).
+makerTokenAddress: The token address the Maker is offering.
+takerTokenAddress: The token address the Maker is requesting from the Taker.
+exchangeContractAddress : The exchange.sol address.
+salt: Random number to make the order (and therefore its hash) unique.
+makerFee: How many ZRX the Maker will pay as a fee to the Relayer.
+takerFee : How many ZRX the Taker will pay as a fee to the Relayer.
+makerTokenAmount: The amount of token the Maker is offering.
+takerTokenAmount: The amount of token the Maker is requesting from the Taker.
+expirationUnixTimestampSec: When will the order expire (in unix time). [3]
+
+
 
 [1] http://blog.teamtreehouse.com/install-node-js-npm-mac
 
 [2] http://blog.teamtreehouse.com/install-node-js-npm-linux
 
-Huge credits to 0x team and 0x wiki
+[3] https://0xproject.com/wiki
+
+Huge credits to the 0x team and 0x wiki

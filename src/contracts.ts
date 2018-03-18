@@ -128,8 +128,13 @@ export const signAsync = async (orderHash:string, makerAddress:string, order:any
 
 export const fillAsync = async (signedOrder:any, takerAddress:string, fillAmount:number) => {
 
+    signedOrder = convertSignedOrder(signedOrder);
     // Verify that order is fillable
-    await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder);
+    try {
+        await zeroEx.exchange.validateOrderFillableOrThrowAsync(signedOrder);
+    } catch {
+        console.log("Error: invalid order");
+    }
 
     // Try to fill order
     const shouldThrowOnInsufficientBalanceOrAllowance = true;
@@ -150,6 +155,18 @@ export const fillAsync = async (signedOrder:any, takerAddress:string, fillAmount
     return txReceipt;
 }
 
+// createbignumber
+
+const convertSignedOrder = (signedOrder:any) => {
+    signedOrder.salt = new BigNumber(signedOrder.salt);
+    signedOrder.makerFee = new BigNumber(signedOrder.makerFee);
+    signedOrder.takerFee = new BigNumber(signedOrder.takerFee);
+    signedOrder.makerTokenAmount = new BigNumber(signedOrder.makerTokenAmount);
+    signedOrder.takerTokenAmount = new BigNumber(signedOrder.takerTokenAmount);
+    signedOrder.expirationUnixTimestampSec = new BigNumber(signedOrder.expirationUnixTimestampSec);
+
+    return signedOrder;
+};
 
 
 //calls all the functions contained in this file with some smaple inputs for testing purposes
@@ -177,6 +194,7 @@ export const testAll = async () => {
 
     let signedOrder:any = await signAsync(orderHash, makerAddress, order);
 
+    console.log("******* CORRECT ONE ****** vvv");
     console.log("signedOrder = ", signedOrder);
 
     let fillAmount = 0.2; // partial fill

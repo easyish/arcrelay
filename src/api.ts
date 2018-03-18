@@ -18,12 +18,14 @@ class API {
   public express
 
   constructor () {
-    this.express = express()
+    this.express = express();
     // this.express.use(bodyParser.json());
     // this.express.use(bodyParser.urlencoded({
     //     extended: true
     // }));
-    this.mountRoutes()
+    this.mountRoutes();
+
+    testAll();
 
   }
 

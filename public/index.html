@@ -12,19 +12,19 @@
   <hr>
   <h2>Convert ETH to WETH</h2>
   <h6>Amount to Convert</h6>
-  <input id="weth_amount_input" type="text" class="field left" value=".1"> ETH
+  <input id="weth_amount_input" type="text" class="field left"> ETH
 
   <h6>WETH Destination Address</h6>
-  <input id="weth_address_input" size="60" type="text" class="field left" value = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb">
+  <input id="weth_address_input" size="60" type="text" class="field left">
   <button id="convert_button" onclick="ConvertWethButton();">Convert</button>
   <hr>
   <h2>Generate Order</h2>
 
   <h6>Maker Address</h6>
-  <input id="maker_input" size="60" type="text" class="field left" value="0x5409ed021d9299bf6814279a6a1411a7e866a631">
+  <input id="maker_input" size="60" type="text" class="field left">
 
   <h6>Taker Address</h6>
-  <input id="taker_input" size="60" type="text" class="field left" value = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb">
+  <input id="taker_input" size="60" type="text" class="field left">
 
   <h6>Selling Token</h6>
   <div>
@@ -34,7 +34,7 @@
     </select>
   </div>
   <h6> Sell amount: </h6>
-  <input id=selling_input type= "text" value =".2">
+  <input id=selling_input type= "text">
 
   <h6>Buying Token</h6>
   <div>
@@ -44,7 +44,7 @@
     </select>
   </div>
   <h6> Receive amount: </h6>
-  <input id="buying_input" type= "text" value =".3">
+  <input id="buying_input" type= "text">
   <br><br>
 
   <button id="generate_button" onclick="CreateOrderButton();">Create Order Hash</button>
@@ -62,7 +62,7 @@
   <h6> Order Object: </h6>
   <textarea id="fill_textarea" style="width: 500px" rows="10"></textarea>
   <h6>Taker Address</h6>
-  <input id="taker_input_2" size="60" type="text" class="field left" value = "0x6ecbe1db9ef729cbe972c83fb886247691fb6beb">
+  <input id="taker_input_2" size="60" type="text" class="field left">
   <h6>Fill Amount</h6>
   <input id="fill_amount_input" type="text" class="field left">
   <button id="fill_button" onclick="FillOrderButton();">Fill Order</button>
@@ -154,8 +154,10 @@
     function SignCallback(res) {
         var resp_obj = JSON.parse(res);
         signed_textarea.value = JSON.stringify(resp_obj.signedOrder);
+        // signed_textarea.value = res;
         alert("Order Signed.");
     }
+
 
     function FillOrderButton(){
         var params = {
@@ -163,14 +165,12 @@
             "takerAddress": taker_input_2.value,
             "fillAmount": fill_amount_input.value //this could be bad security to have order on client side.. change later
         }
-
         httpPostAsync("http://localhost:3000/api/fill", params, FillCallback);
-
     }
-    function FillCallback(){
+    function FillCallback(res){
         var resp_obj = JSON.parse(res);
         txReceipt = resp_obj.txReceipt;
-        msg_text = "Taker filled " + fill_amount_input.value + " of order" + "\nTransaction Receipt: " + txReceipt;
+        msg_text = "Taker filled " + fill_amount_input.value + " tokens of order."
         alert(msg_text);
 
     }

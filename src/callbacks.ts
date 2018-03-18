@@ -1,4 +1,5 @@
 import * as contracts from './contracts';
+import { BigNumber } from '@0xproject/utils';
 
 export const helloworld_get = async (req:any, res:any) => {
   // console.log("we're calling hw_console.");
@@ -66,9 +67,15 @@ export const fillAsyncCaller = async (req:any, res:any) => {
   let signedOrder:any = req.body.signedOrder;
   let takerAddress:string = req.body.takerAddress;
   let fillAmount:number = req.body.fillAmount; //partial fill ?
+  //console.log("SIGNED ORDER potentially fucked: ", signedOrder);
+
+  //call convert signed order here
+
+  //console.log("SIGNED ORDER hopefully dank??: ", signedOrder);
 
   const txReceipt:any = await contracts.fillAsync(signedOrder, takerAddress, fillAmount);
-
+  //remove this:
+  //let txReceipt = "hi"
   res.json({
     txReceipt: txReceipt,
   })
