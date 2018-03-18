@@ -129,17 +129,17 @@ At this point you should be able to interact with the frontend in order to creat
 `$ kill -9 <PID>`
 
 ### Explanation of order fields:
-maker : Ethereum address of our Maker.
-taker : Ethereum address of our Taker.
-feeRecipient : Ethereum address of our Relayer (none for now).
-makerTokenAddress: The token address the Maker is offering.
-takerTokenAddress: The token address the Maker is requesting from the Taker.
-exchangeContractAddress : The exchange.sol address.
-salt: Random number to make the order (and therefore its hash) unique.
-makerFee: How many ZRX the Maker will pay as a fee to the Relayer.
-takerFee : How many ZRX the Taker will pay as a fee to the Relayer.
-makerTokenAmount: The amount of token the Maker is offering.
-takerTokenAmount: The amount of token the Maker is requesting from the Taker.
+maker : Ethereum address of our Maker.<br/>
+taker : Ethereum address of our Taker.<br/>
+feeRecipient : Ethereum address of our Relayer (none for now).<br/>
+makerTokenAddress: The token address the Maker is offering.<br/>
+takerTokenAddress: The token address the Maker is requesting from the Taker.<br/>
+exchangeContractAddress : The exchange.sol address.<br/>
+salt: Random number to make the order (and therefore its hash) unique.<br/>
+makerFee: How many ZRX the Maker will pay as a fee to the Relayer.<br/>
+takerFee : How many ZRX the Taker will pay as a fee to the Relayer.<br/>
+makerTokenAmount: The amount of token the Maker is offering.<br/>
+takerTokenAmount: The amount of token the Maker is requesting from the Taker.<br/>
 expirationUnixTimestampSec: When will the order expire (in unix time). [3]
 
 
