@@ -1,17 +1,14 @@
 import * as express from 'express'
 import * as cors from "cors";
-import * as callbacks from './callbacks'; // previously index
+import * as callbacks from './callbacks';
 import { testAll } from './contracts';
 
 
 let bodyParser = require('body-parser');
-// let multer = require('multer');
-// let upload = multer();
 
 // create application/json parser
 let jsonParser = bodyParser.json()
-// create application/x-www-form-urlencoded parser
-// let urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 
 
 class API {
@@ -19,12 +16,8 @@ class API {
 
   constructor () {
     this.express = express();
-    // this.express.use(bodyParser.json());
-    // this.express.use(bodyParser.urlencoded({
-    //     extended: true
-    // }));
-    this.mountRoutes();
 
+    this.mountRoutes();
 
   }
 
@@ -43,10 +36,6 @@ class API {
     router.use(cors(options));
 
     //add routes
-
-    //test routes
-    // router.get('/helloworld_get', jsonParser, callbacks.helloworld_get)
-    // router.post('/helloworld_post', jsonParser, callbacks.helloworld_post)
 
     //4 main post endpoints
     router.post('/api/convert', jsonParser, callbacks.convertWethAsyncCaller);

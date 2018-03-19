@@ -1,20 +1,6 @@
 import * as contracts from './contracts';
 import { BigNumber } from '@0xproject/utils';
 
-export const helloworld_get = async (req:any, res:any) => {
-  // console.log("we're calling hw_console.");
-  res.json({
-    res: 'Hello World GET'
-  })
-}
-
-//used for testing post from client side to server side
-export const helloworld_post = async (req:any, res:any) => {
-  console.log(req.body);
-  res.json({
-    returned: 'Hello World POST',
-  })
-}
 
 export const convertWethAsyncCaller = async (req:any, res:any) => {
   let ethAmount:number = req.body.ethAmount; //0.5;
@@ -67,15 +53,9 @@ export const fillAsyncCaller = async (req:any, res:any) => {
   let signedOrder:any = req.body.signedOrder;
   let takerAddress:string = req.body.takerAddress;
   let fillAmount:number = req.body.fillAmount; //partial fill ?
-  //console.log("SIGNED ORDER potentially fucked: ", signedOrder);
-
-  //call convert signed order here
-
-  //console.log("SIGNED ORDER hopefully dank??: ", signedOrder);
 
   const txReceipt:any = await contracts.fillAsync(signedOrder, takerAddress, fillAmount);
-  //remove this:
-  //let txReceipt = "hi"
+
   res.json({
     txReceipt: txReceipt,
   })
