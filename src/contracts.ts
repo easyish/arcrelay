@@ -75,10 +75,10 @@ export const createAsync = async (makerAddress:string, takerAddress:string, make
 
     //set allowances, we just use unlimited for now, make rules later
     // Unlimited allowances to 0x proxy contract for maker and taker
-    const setMakerAllowTxHash = await zeroEx.token.setUnlimitedProxyAllowanceAsync(ZRX_ADDRESS, makerAddress);
+    const setMakerAllowTxHash = await zeroEx.token.setUnlimitedProxyAllowanceAsync(makerTokenAddress, makerAddress);
     await zeroEx.awaitTransactionMinedAsync(setMakerAllowTxHash);
 
-    const setTakerAllowTxHash = await zeroEx.token.setUnlimitedProxyAllowanceAsync(WETH_ADDRESS, takerAddress);
+    const setTakerAllowTxHash = await zeroEx.token.setUnlimitedProxyAllowanceAsync(takerTokenAddress, takerAddress);
     await zeroEx.awaitTransactionMinedAsync(setTakerAllowTxHash);
     console.log('Taker allowance mined...');
 

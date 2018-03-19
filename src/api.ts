@@ -25,7 +25,6 @@ class API {
     // }));
     this.mountRoutes();
 
-    testAll();
 
   }
 
