@@ -6,7 +6,7 @@ This is the beginning stages of a 0x relayer web application built on the Ethere
 
 ## Setup instructions
 
-### -1. Pre-prerequisites
+### Pre-prerequisites
 #### Mac [1]
 ##### Install Xcode
 Install Xcode if you don't have it already. You can find it in the [App Store](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
@@ -54,7 +54,7 @@ Once Linuxbrew is installed, you’ll need add the following 3 lines to your .ba
   export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 `
 
-### 0. Install node and npm (if you don't have them)
+### Install node and npm (if you don't have them)
 To see if node is installed type `node -v` in the terminal. To see if npm is installed type `npm -v`
 
 If you do not have node and npm installed but you have done the above step, you can easily install them by opening terminal and running
